@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.shoppi_android.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -24,9 +25,10 @@ class HomeFragment : Fragment() {
 
         binding = FragmentHomeBinding.bind(view)
         binding.btnEnterProductDetail.setOnClickListener {
-            val transaction = parentFragmentManager.beginTransaction()
-            transaction.add(R.id.container_main, ProductDetailFragment())
-            transaction.commit()
+            findNavController().navigate(R.id.action_home_to_product_detail)
+//            val transaction = parentFragmentManager.beginTransaction()
+//            transaction.add(R.id.container_main, ProductDetailFragment())
+//            transaction.commit()
         }
     }
 }

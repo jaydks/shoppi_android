@@ -5,10 +5,16 @@
       <map>
         <entry key="app/src/main/res/drawable/background_splash_screen.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_gnb_back.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.12945709228515626" />
+        <entry key="app/src/main/res/drawable/selector_cart_icon.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/selector_category_icon.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/selector_home_icon.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.242938232421875" />
         <entry key="app/src/main/res/layout/activity_product_detail.xml" value="0.18926086425781252" />
         <entry key="app/src/main/res/layout/activity_product_detial.xml" value="0.15185185185185185" />
+        <entry key="app/src/main/res/layout/fragment_cart.xml" value="0.13425925925925927" />
+        <entry key="app/src/main/res/layout/fragment_category.xml" value="0.13425925925925927" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.1608145819769965" />
+        <entry key="app/src/main/res/menu/navigation_main_menu.xml" value="0.1" />
       </map>
     </option>
   </component>
