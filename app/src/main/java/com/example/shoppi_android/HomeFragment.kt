@@ -1,6 +1,7 @@
 package com.example.shoppi_android
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,9 +27,10 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding.bind(view)
         binding.btnEnterProductDetail.setOnClickListener {
             findNavController().navigate(R.id.action_home_to_product_detail)
-//            val transaction = parentFragmentManager.beginTransaction()
-//            transaction.add(R.id.container_main, ProductDetailFragment())
-//            transaction.commit()
         }
+
+        val assetLoader = AssetLoader()
+        val homeData = assetLoader.getJsonString(requireContext(), "home.json")
+        Log.d("homeData", homeData ?: "")
     }
 }
