@@ -1,11 +1,10 @@
-package com.example.shoppi_android
+package com.example.shoppi_android.ui
 
-import android.content.ContentValues.TAG
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.shoppi_android.R
 import com.example.shoppi_android.databinding.ActivityMainBinding
 
 private lateinit var binding: ActivityMainBinding

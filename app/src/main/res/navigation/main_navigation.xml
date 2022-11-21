@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.shoppi_android.HomeFragment"
+        android:name="com.example.shoppi_android.ui.HomeFragment"
         android:label="HomeFragment" >
         <action
             android:id="@+id/action_home_to_product_detail"
@@ -14,14 +14,14 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_cart"
-        android:name="com.example.shoppi_android.CartFragment"
+        android:name="com.example.shoppi_android.ui.CartFragment"
         android:label="CartFragment" />
     <fragment
         android:id="@+id/navigation_category"
-        android:name="com.example.shoppi_android.CategoryFragment"
+        android:name="com.example.shoppi_android.ui.CategoryFragment"
         android:label="CategoryFragment" />
     <fragment
         android:id="@+id/navigation_product_detail"
-        android:name="com.example.shoppi_android.ProductDetailFragment"
+        android:name="com.example.shoppi_android.ui.ProductDetailFragment"
         android:label="ProductDetailFragment" />
 </navigation>

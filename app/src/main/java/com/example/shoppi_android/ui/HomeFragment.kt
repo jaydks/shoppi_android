@@ -1,5 +1,6 @@
-package com.example.shoppi_android
+package com.example.shoppi_android.ui
 
+import android.icu.text.CaseMap
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,16 +8,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
-import com.bumptech.glide.Glide
+import com.example.shoppi_android.*
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.gson.Gson
-import org.json.JSONObject
+import java.util.Observable
+import java.util.Observer
 
 class HomeFragment : Fragment() {
+
+    private val viewModel: HomeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,13 +49,25 @@ class HomeFragment : Fragment() {
             val gson = Gson()
             val homeData = gson.fromJson(homeJsonString, HomeData::class.java)
 
-            toolbarTitle.text = homeData.title.text
-            GlideApp.with(this).load(homeData.title.iconUrl).into(toolbarIcon)
-
-            // 뷰페이저 어댑터 연결
-            viewpager.adapter = HomeBannerAdaptor().apply {
-                submitList(homeData.topBanners)
+            // 앞으로 viewModel이 state holder역할을 하면서 Data룰 저장하고 관리할 것
+            // 따라서 Fragment에서 직접 title을 요청하는 것이 아닌 viewmodel의 title을 참조
+            // 그리고 이를 LiveData가 제공하는 observe()메소드를 통해 데이터가 변경되었을 때 어떤 처리를 할 것인지 HomeFragment에서 구현해야함
+            // 첫번째 인자로 lifecycleowner를 전달. fragment는 viewLifecycleOwner에 대한 참조를 얻을 수 있음.
+            // lifecycleowner는 lifecycle이 변경되는 것에 대한 알림을 받아 현재의 lifecycle상태를 알고있는 객체를 의미
+            // 두번째 인자로는 observer를 구현해서 전달해야 함. -> observer 객체를 만들기 위해 object:
+            // title 객체가 변경되면 아래 람다 블럭이 호출되는 것. 따라서 람다 블럭 안에서 뷰를 업데이트하는 로직을 구현하면 됨.
+            viewModel.title.observe(viewLifecycleOwner) { title ->
+                toolbarTitle.text = title.text
+                GlideApp.with(this).load(title.iconUrl).into(toolbarIcon)
             }
+
+            viewModel.topBanner.observe(viewLifecycleOwner) { banners ->
+                // 뷰페이저 어댑터 연결
+                viewpager.adapter = HomeBannerAdaptor().apply {
+                    submitList(banners)
+                }
+            }
+
 
             // 다음 페이지 보이기
             val pageWidth =
