@@ -12,3 +12,4 @@ class SplashActivity : AppCompatActivity() {
         finish()
     }
 }
+// 테스트요
