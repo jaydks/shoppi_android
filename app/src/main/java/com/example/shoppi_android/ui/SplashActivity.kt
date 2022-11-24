@@ -13,3 +13,4 @@ class SplashActivity : AppCompatActivity() {
     }
 }
 // 테스트요
+//test
