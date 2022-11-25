@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.shoppi_android.model.Banner
 import com.example.shoppi_android.GlideApp
 import com.example.shoppi_android.R
+import com.example.shoppi_android.databinding.ItemHomeBannerBinding
 import java.text.DecimalFormat
 import kotlin.math.roundToInt
 
@@ -23,14 +24,14 @@ class HomeBannerAdaptor :
     // DiffUtil.ItemCallback을 구현 -> 스크롤이 변경됨에 땨라서 데이터가 실제로 변경되는지 확인하고 데이터가 한 명이 되면 그때서야 레이아웃을 업데이트 함
     // 이 때 어떠한 아이디를 기준으로 같다/다르다를 구분할건지 DiffUtil.ItemCallback을 구현하면서 정의해야 함
 
+    private lateinit var binding: ItemHomeBannerBinding
 
     // view는 HomeBanner에서 inflate시킬 레이아웃을 의미
     // onCreateViewHolder에서는 레이아웃을 inflate해서 view를 만들고, ViewHolder에 전달해서
     // ViewHolder()를 생성해서 return
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeBannerViewHolder {
-        val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.item_home_banner, parent, false)
-        return HomeBannerViewHolder(view)
+        binding = ItemHomeBannerBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return HomeBannerViewHolder(binding)
     }
 
     // onCreateViewHolder가 호출되어 생성한 ViewHolder가 여기서 전달됨
@@ -39,43 +40,13 @@ class HomeBannerAdaptor :
         holder.bind(getItem(position)) // 해당 포지션의 데이터를 전달해줌
     }
 
-    class HomeBannerViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-
-        private val bannerImageView = view.findViewById<ImageView>(R.id.iv_banner_image)
-        private val bannerBadgeTextView = view.findViewById<TextView>(R.id.tv_banner_badge)
-        private val bannerTitleTextView = view.findViewById<TextView>(R.id.tv_banner_title)
-        private val bannerDetailThumbnailImageView = view.findViewById<ImageView>(R.id.iv_banner_detail_thumbnail)
-        private val bannerDetailBrandLabelTextView = view.findViewById<TextView>(R.id.tv_banner_detail_brand_label)
-        private val bannerDetailProductLabelTextView = view.findViewById<TextView>(R.id.tv_banner_detail_product_label)
-        private val bannerDetailDiscountRateTextView = view.findViewById<TextView>(R.id.tv_banner_detail_product_discount_rate)
-        private val bannerDetailDiscountPriceTextView = view.findViewById<TextView>(R.id.tv_banner_detail_product_discount_price)
-        private val bannerDetailPriceTextView = view.findViewById<TextView>(R.id.tb_banner_detail_product_price)
+    //private val binding: ItemHomeBannerBinding
+    // binding을 전달해야 내부에서 bind를 쓸 수 있고, val 로 변수 선언을 해야 내부에서 binding을 쓸 수 있음. 그리고 내부에서만 쓸거라서 private
+    class HomeBannerViewHolder(private val binding: ItemHomeBannerBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(banner: Banner) { // 인자로 배너 객체를 받아서 view와 바인딩을 해줘야 함
-            loadImage(banner.backgroundImageUrl, bannerImageView)
-            bannerBadgeTextView.text = banner.badge.label
-            bannerBadgeTextView.background = ColorDrawable(Color.parseColor(banner.badge.backgroundColor))
-            bannerTitleTextView.text = banner.label
-            loadImage(banner.productDetail.thumbnailImageUrl, bannerDetailThumbnailImageView)
-            bannerDetailBrandLabelTextView.text = banner.productDetail.brandName
-            bannerDetailProductLabelTextView.text = banner.productDetail.label
-            bannerDetailDiscountRateTextView.text = "${banner.productDetail.discountRate}%"
-            calculateDiscountAmount(bannerDetailDiscountPriceTextView, banner.productDetail.discountRate, banner.productDetail.price)
-            applyPriceFormat(bannerDetailPriceTextView, banner.productDetail.price)
-        }
-
-        private fun calculateDiscountAmount(view: TextView, discountRate: Int, price: Int) {
-            val discountPrice = ((100 - discountRate) / 100.0 * price).roundToInt()
-            applyPriceFormat(view, discountPrice)
-        }
-
-        private fun applyPriceFormat(view: TextView, price: Int) {
-            val decimalFormat = DecimalFormat("#,###")
-            view.text = decimalFormat.format(price) + "원"
-        }
-
-        fun loadImage(urlString: String, ImageView: ImageView) {
-            GlideApp.with(itemView).load(urlString).into(ImageView)
+            binding.banner = banner
+            binding.executePendingBindings() // 바로 데이터가 바인딩됨
         }
     }
 }
